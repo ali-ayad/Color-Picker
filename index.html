@@ -2,41 +2,103 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        ul{
+            margin: 20px auto;
+            padding: 20px;
+            background-color:#eee;
+            width: 500px;
+            border-radius: 10px;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        ul li{
+            width: 50px;
+            height: 50px;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            opacity: 0.5;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        ul li.active,
+        ul li:hover{
+            opacity: 1;
+        }
+
+        ul li:first-child{
+            background-color: red;
+        }
+
+        ul li:nth-child(2){
+            background-color: blueviolet;
+        }
+        ul li:nth-child(3){
+            background-color: rgb(43, 226, 52);
+        }
+        ul li:nth-child(4){
+            background-color: rgb(8, 1, 15);
+        }
+        .main{
+            padding: 20px;
+            margin: 20px auto;
+            background-color: red;
+            width: 150px;
+            height: 200px;
+            border-radius: 7px;
+        }
+    </style>
 </head>
 <body>
-    <div style="display: flex; justify-content: center; align-items: center;">
-        <div style="margin: 10px;"> 
-            <h2>First Number</h2>
-            <input type="text" id="f-n">
-        </div>
-          <div> 
-            <h2>Second Number</h2>
-            <input type="text" id="s-n">
-        </div>
-        </div>
-        <div style="display: flex; justify-content: center; text-align: center;">
-           <button style="width: 100px; margin-top: 10px;" id="clc-btn">mode</button>
-        </div>
-      <div style="display:flex; width: 100%; justify-content: center; text-align: center; margin-top: 10px;">
-        <h2> Result <span id="r-s">0</span> </h2>
-      </div>
-     
+    <ul>
+        <li class="active" data-color="red"></li>
+        <li data-color="blueviolet"></li>
+        <li data-color="rgb(43, 226, 52)"></li>
+        <li data-color="black"></li>
+    </ul>
+    <div class="main"></div>
+    <script>
+        let lis = document.querySelectorAll(" ul li");
+let main = document.querySelector(".main")
+
+if (window.localStorage.getItem("color")){
+    main.style.backgroundColor = window.localStorage.getItem("color");
+
+    lis.forEach((li)=>{
+        li.classList.remove("active");
+
+    });
+    document.querySelector(`[data-color="${window.localStorage.getItem("color")}"]`)
+    .classList.add("active");
+}else{
+console.log("no")
+}
+
+
+lis.forEach((li)=> {
+    li.addEventListener("click", (e) => {
+        // console.log(e.currentTarget.dataset.color);
+        window.localStorage.setItem("color",e.currentTarget.dataset.color);
+        lis.forEach((li) => {
+             li.classList.remove("active");
+
+         });
+         e.currentTarget.classList.add("active");
+        
+        //window.localStorage.setItem("color",e.currentTarget.dataset.color);
+        main.style.backgroundColor = e.currentTarget.dataset.color;
+    });
+});
+
+
+
+
+    </script>
 </body>
-<script>
-  document.getElementById("clc-btn").addEventListener("click",function(){
-    let firstnum=document.getElementById("f-n").value
-    let secondnum=document.getElementById("s-n").value
-
-    result =mod1(firstnum,secondnum)
-
-    document.getElementById("r-s").innerHTML=result
-
-  })
-
-  function mod1(num1,num2){
-    return num1 % num2
-  }
-</script>
 </html>
